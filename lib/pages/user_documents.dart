@@ -73,54 +73,68 @@ class _UserDocumentsPageState extends State<UserDocumentsPage> {
       appBar: AppBar(title: const Text('Upload document'),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView( //畫面捲動
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  controller: _nicknameController,
-                  decoration: const InputDecoration(labelText: 'Nickname'),
-                  validator: (value) => value == null || value.isEmpty ? "can't be empty" : null,
-                ),
-                //const SizedBox(height: 6),
-                TextFormField(
-                  controller: _introController,
-                  decoration: const InputDecoration(labelText: "Description"),
-                  maxLines: 5,
-                  validator: _validateIntro,
-                ),
-                //const SizedBox(height: 6),
-                DropdownButtonFormField<String>( //下拉選單
-                  decoration: const InputDecoration(labelText: "Type"),
-                  items: const[
-                    DropdownMenuItem(value: "job", child: Text("Apply for job"),),
-                    DropdownMenuItem(value: "school",child: Text("Apply for school "),)
-                  ],
-                  onChanged: (value) => setState(() => _selectedType = value),
-                  validator: (value) => value == null ? "choose one" : null,
-                ),
-                //const SizedBox(height: 6,),
-                ElevatedButton(
-                  onPressed: _pickFile,
-                  child: const Text("Select PDF / Vidoe / Image"),
-                ),
-                if (_pickedFile != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("Selected! => ${_pickedFile!.path.split('/').last}"),
+        child: Center(
+          child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView( //畫面捲動
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: _nicknameController,
+                        decoration: const InputDecoration(labelText: 'Nickname'),
+                        validator: (value) => value == null || value.isEmpty ? "can't be empty" : null,
+                      ),
+                      //const SizedBox(height: 6),
+                      TextFormField(
+                        controller: _introController,
+                        decoration: const InputDecoration(labelText: "Description"),
+                        maxLines: 2,
+                        validator: _validateIntro,
+                      ),
+                      //const SizedBox(height: 6),
+                      DropdownButtonFormField<String>( //下拉選單
+                        decoration: const InputDecoration(labelText: "Type"),
+                        items: const[
+                          DropdownMenuItem(value: "job", child: Text("Apply for job"),),
+                          DropdownMenuItem(value: "school",child: Text("Apply for school "),)
+                        ],
+                        onChanged: (value) => setState(() => _selectedType = value),
+                        validator: (value) => value == null ? "choose one" : null,
+                      ),
+                      //const SizedBox(height: 6,),
+                      ElevatedButton(
+                        onPressed: _pickFile,
+                        child: const Text("Select PDF / Vidoe / Image"),
+                      ),
+                      if (_pickedFile != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text("Selected! => ${_pickedFile!.path.split('/').last}"),
+                        ),
+                      const SizedBox(height: 24),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _submitForm, 
+                          child: const Text("Submit")),
+                      )
+                    ],
                   ),
-                const SizedBox(height: 24),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: _submitForm, 
-                    child: const Text("Submit")),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+          
         ),
+        )
+        
+        )
       ),
     );
   }
